@@ -807,7 +807,7 @@ section {
   box-shadow: 0 10px 30px rgba(0,0,0,0.16);
 }
 
-.timeline-marker {
+.about-timeline .timeline-marker {
   font-weight: var(--font-weight-bold);
   color: var(--accent-primary);
   min-width: 50px;
@@ -1047,23 +1047,25 @@ section {
 .timeline-event {
   margin-bottom: 2rem;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 2rem;
+  grid-template-columns: minmax(0, 1fr) 2rem minmax(0, 1fr);
+  grid-template-areas: "left marker right";
+  column-gap: 2rem;
   align-items: center;
 }
 
 .timeline-event:nth-child(even) .timeline-card {
-  grid-column: 3;
+  grid-area: right;
 }
 
 .timeline-event:nth-child(odd) .timeline-card {
-  grid-column: 1;
+  grid-area: left;
 }
 
-.timeline-marker {
+.vertical-timeline .timeline-marker {
   display: flex;
   justify-content: center;
   align-items: center;
+  grid-area: marker;
 }
 
 .timeline-dot {
@@ -1076,12 +1078,22 @@ section {
 }
 
 .timeline-card {
+  width: 100%;
+  max-width: 32rem;
   padding: 1.5rem;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   background: var(--card-bg);
   backdrop-filter: blur(10px);
   transition: all var(--transition-base);
+}
+
+.timeline-event:nth-child(odd) .timeline-card {
+  justify-self: end;
+}
+
+.timeline-event:nth-child(even) .timeline-card {
+  justify-self: start;
 }
 
 .timeline-card:hover {
@@ -1488,7 +1500,7 @@ section {
    RESPONSIVE DESIGN
    ============================================ */
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
   .hero-content {
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -1522,16 +1534,18 @@ section {
 
   .timeline-event {
     grid-template-columns: 1fr;
+    grid-template-areas: "marker" "card";
     gap: 1rem;
     margin-bottom: 1.5rem;
   }
 
   .timeline-event:nth-child(even) .timeline-card,
   .timeline-event:nth-child(odd) .timeline-card {
-    grid-column: 1;
+    grid-area: card;
   }
 
-  .timeline-marker {
+  .vertical-timeline .timeline-marker {
+    grid-area: marker;
     margin-bottom: 0.5rem;
   }
 }
